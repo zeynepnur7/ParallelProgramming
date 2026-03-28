@@ -1,0 +1,19 @@
+import time
+import sys
+
+def performance_measurer(func):
+    func.counter = 0
+    func.total_time = 0
+    func.total_mem = 0
+
+    def wrapper(*args, **kwargs):
+        func.counter += 1
+        start_time = time.perf_counter()
+        result = func(*args, **kwargs)
+        end_time = time.perf_counter()
+        func.total_time += (end_time - start_time)
+        func.total_mem += sys.getsizeof(result)
+        
+        return result
+
+    return wrapper
